@@ -19,25 +19,6 @@ function PauseIcon({ className }: { className?: string }) {
   );
 }
 
-function HeartIcon({ className, filled }: { className?: string; filled?: boolean }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth={filled ? 0 : 2}
-      className={className}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-      />
-    </svg>
-  );
-}
-
 function BackwardIcon({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -54,11 +35,44 @@ function ForwardIcon({ className }: { className?: string }) {
   );
 }
 
+function DownloadIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path fillRule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+    </svg>
+  );
+}
+
+function SoundWave({ className }: { className?: string }) {
+  const colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#FFEB3B", "#FF9800"];
+  return (
+    <svg viewBox="0 0 100 100" className={className} preserveAspectRatio="none">
+      {[...Array(12)].map((_, i) => (
+        <rect
+          key={i}
+          x={14 + i * 6}
+          y="25"
+          width="4"
+          height="50"
+          rx="2"
+          fill={colors[i % colors.length]}
+          style={{
+            transformBox: 'fill-box',
+            transformOrigin: 'center',
+            animation: `wave 1.2${(i % 6) + 2}s ease-in-out infinite alternate`,
+            animationDelay: `-${i * 0.2}s`,
+            filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.3))'
+          }}
+        />
+      ))}
+    </svg>
+  );
+}
+
 const AUDIO_URL = "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3";
 
 export default function MusicPlayerPage() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -77,11 +91,14 @@ export default function MusicPlayerPage() {
   const onTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
+      if (duration === 0 && Number.isFinite(audioRef.current.duration)) {
+        setDuration(audioRef.current.duration);
+      }
     }
   };
 
   const onLoadedMetadata = () => {
-    if (audioRef.current) {
+    if (audioRef.current && Number.isFinite(audioRef.current.duration)) {
       setDuration(audioRef.current.duration);
     }
   };
@@ -93,10 +110,44 @@ export default function MusicPlayerPage() {
   };
 
   const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = Number(e.target.value);
+    setCurrentTime(newTime);
     if (audioRef.current) {
-      const newTime = Number(e.target.value);
+      audioRef.current.currentTime = newTime;
+    }
+  };
+
+  const handleSeekForward = () => {
+    if (audioRef.current) {
+      const newTime = Math.min(audioRef.current.currentTime + 5, duration);
       audioRef.current.currentTime = newTime;
       setCurrentTime(newTime);
+    }
+  };
+
+  const handleSeekBackward = () => {
+    if (audioRef.current) {
+      const newTime = Math.max(audioRef.current.currentTime - 5, 0);
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(AUDIO_URL);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "My Life - Romantic Journey.mp3";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed, falling back to new tab:", error);
+      window.open(AUDIO_URL, "_blank");
     }
   };
 
@@ -107,15 +158,14 @@ export default function MusicPlayerPage() {
         src={AUDIO_URL}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
+        onDurationChange={onLoadedMetadata}
         onEnded={() => setIsPlaying(false)}
       />
       
-      {/* Dynamic Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-rose-300 to-red-300 dark:from-rose-950 dark:via-red-900 dark:to-pink-950 opacity-80" />
       <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-primary/30 rounded-full blur-[60px] md:blur-[100px] animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-secondary/40 rounded-full blur-[60px] md:blur-[100px] animate-pulse delay-75" />
 
-      {/* Floating Hearts */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(6)].map((_, i) => (
           <div
@@ -137,44 +187,44 @@ export default function MusicPlayerPage() {
         <div className="flex justify-between items-center mb-6 md:mb-8 px-2 text-white/80">
           <div className="w-6" />
           <span className="text-xs md:text-sm font-medium tracking-widest uppercase">Now Playing</span>
-          <button className="hover:text-white transition-colors">
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clipRule="evenodd" />
-              </svg>
+          <button 
+            className="hover:text-white transition-colors hover:scale-110 active:scale-95" 
+            onClick={handleDownload}
+            aria-label="Download Song"
+          >
+             <DownloadIcon className="w-6 h-6" />
           </button>
         </div>
 
         <div className="bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-5 md:p-6 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl">
-          <div className="relative aspect-square mb-6 md:mb-8 rounded-2xl overflow-hidden shadow-lg">
-            <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-tr from-rose-400 to-orange-300 ${isPlaying ? 'animate-spin-slow' : ''}`}>
-                <div className="w-1/2 h-1/2 bg-white/20 rounded-full blur-xl" />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-                 <HeartIcon className="w-16 h-16 md:w-24 md:h-24 text-white drop-shadow-md" filled={true} />
-            </div>
+          <div className="relative aspect-square mb-6 md:mb-8 rounded-2xl overflow-hidden bg-black/10 dark:bg-white/5 flex items-center justify-center">
+            {isPlaying ? (
+                <div className="w-full h-full p-6">
+                    <SoundWave className="w-full h-full opacity-100" />
+                </div>
+            ) : (
+                <div className="flex flex-col items-center gap-2 text-white/40">
+                    <div className="w-16 h-1 bg-white/30 rounded-full" />
+                    <div className="w-24 h-1 bg-white/30 rounded-full" />
+                    <div className="w-16 h-1 bg-white/30 rounded-full" />
+                </div>
+            )}
           </div>
 
-          <div className="flex justify-between items-end mb-5 md:mb-6">
-            <div>
-              <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">My Life</h2>
-              <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">Romantic Journey</p>
-            </div>
-            <button 
-                onClick={() => setIsLiked(!isLiked)} 
-                className={`p-2 rounded-full transition-all ${isLiked ? 'text-rose-500 scale-110' : 'text-white/70 hover:text-white'}`}
-            >
-              <HeartIcon className="w-6 h-6 md:w-8 md:h-8" filled={isLiked} />
-            </button>
+          <div className="flex flex-col items-center text-center mb-8">
+            <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">My Life</h2>
+            <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">Romantic Journey</p>
           </div>
 
           <div className="mb-6 md:mb-8 group">
             <input
               type="range"
               min="0"
-              max={duration || 0}
+              max={duration || 100}
+              step="0.1"
               value={currentTime}
               onChange={handleProgressChange}
-              className="w-full h-1.5 bg-white/20 rounded-full appearance-none cursor-pointer accent-white"
+              className="w-full h-2 bg-white/20 rounded-full appearance-none cursor-pointer accent-white relative z-20 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full"
             />
             <div className="flex justify-between text-xs text-white/60 font-medium mt-2">
               <span>{formatTime(currentTime)}</span>
@@ -183,16 +233,16 @@ export default function MusicPlayerPage() {
           </div>
 
           <div className="flex items-center justify-between mb-2">
-            <button className="text-white/70 hover:text-white transition-colors p-2" onClick={() => { if(audioRef.current) audioRef.current.currentTime = 0 }}>
+            <button className="text-white/70 hover:text-white transition-colors p-2" onClick={() => { if(audioRef.current) { audioRef.current.currentTime = 0; setCurrentTime(0); } }}>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 md:w-6 md:h-6">
                   <path fillRule="evenodd" d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a9.75 9.75 0 109.75 9.75.75.75 0 111.5 0 11.25 11.25 0 11-11.25-11.25h11.69l-3.22-3.22a.75.75 0 010-1.06z" clipRule="evenodd" />
                 </svg>
             </button>
             
-            <button className="text-white/80 hover:text-white transition-colors" onClick={() => { if(audioRef.current) audioRef.current.currentTime -= 10 }}>
+            <button className="text-white/80 hover:text-white transition-colors" onClick={handleSeekBackward}>
               <BackwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
-
+            
             <div className="relative flex items-center justify-center">
               {!isPlaying && (
                 <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-40" />
@@ -209,7 +259,7 @@ export default function MusicPlayerPage() {
               </button>
             </div>
 
-            <button className="text-white/80 hover:text-white transition-colors" onClick={() => { if(audioRef.current) audioRef.current.currentTime += 10 }}>
+            <button className="text-white/80 hover:text-white transition-colors" onClick={handleSeekForward}>
               <ForwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
@@ -223,12 +273,10 @@ export default function MusicPlayerPage() {
       </div>
       
       <style jsx>{`
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin 10s linear infinite;
+        @keyframes wave {
+            0% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.1); }
+            100% { transform: scaleY(0.4); }
         }
       `}</style>
     </div>
