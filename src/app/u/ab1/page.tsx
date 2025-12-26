@@ -15,15 +15,15 @@ function HeartIcon({ className }: { className?: string }) {
 
 export default function GreetingPage() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center p-6 text-center">
-      <div className="max-w-md w-full p-10 rounded-[3rem] bg-white/40 dark:bg-black/20 border-2 border-primary/10 backdrop-blur-md shadow-2xl shadow-primary/5">
-        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8">
-          <HeartIcon className="w-10 h-10 text-primary animate-bounce" />
+    <div className="flex flex-col min-h-screen items-center justify-center p-4 md:p-6 text-center overflow-x-hidden">
+      <div className="w-full max-w-md p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/40 dark:bg-black/20 border-2 border-primary/10 backdrop-blur-md shadow-2xl shadow-primary/5 mx-auto">
+        <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8">
+          <HeartIcon className="w-8 h-8 md:w-10 md:h-10 text-primary animate-bounce" />
         </div>
         
-        <h1 className="text-3xl font-bold mb-4">Hello there!</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Hello there!</h1>
         
-        <p className="text-lg text-foreground/80 leading-relaxed mb-8">
+        <p className="text-base md:text-lg text-foreground/80 leading-relaxed mb-6 md:mb-8">
           Welcome to your special corner of <span className="text-primary font-semibold">LoveTheme</span>. 
           We&apos;re so glad you&apos;re here. This is a space built with passion and care, 
           just for you.

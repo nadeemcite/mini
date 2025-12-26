@@ -77,12 +77,13 @@ export default function MusicPlayerPage() {
   }, [isPlaying]);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background">
       
       {/* Dynamic Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-rose-300 to-red-300 dark:from-rose-950 dark:via-red-900 dark:to-pink-950 opacity-80" />
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-primary/30 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-secondary/40 rounded-full blur-[100px] animate-pulse delay-75" />
+      {/* Responsive blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-primary/30 rounded-full blur-[60px] md:blur-[100px] animate-pulse" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-secondary/40 rounded-full blur-[60px] md:blur-[100px] animate-pulse delay-75" />
 
       {/* Floating Hearts Background (Simple CSS implementation) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -93,7 +94,7 @@ export default function MusicPlayerPage() {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 4 + 2}rem`,
+              fontSize: `${Math.random() * 2 + 1}rem`, // Smaller on mobile
               animationDuration: `${Math.random() * 5 + 3}s`,
             }}
           >
@@ -102,15 +103,15 @@ export default function MusicPlayerPage() {
         ))}
       </div>
 
-      <div className="relative z-10 w-full max-w-sm">
+      <div className="relative z-10 w-full max-w-sm px-4 md:px-0">
         {/* Navigation */}
-        <div className="flex justify-between items-center mb-8 px-4 text-white/80">
+        <div className="flex justify-between items-center mb-6 md:mb-8 px-2 text-white/80">
           <Link href="/" className="hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
               <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clipRule="evenodd" />
             </svg>
           </Link>
-          <span className="text-sm font-medium tracking-widest uppercase">Now Playing</span>
+          <span className="text-xs md:text-sm font-medium tracking-widest uppercase">Now Playing</span>
           <button className="hover:text-white transition-colors">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                 <path fillRule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clipRule="evenodd" />
@@ -119,36 +120,36 @@ export default function MusicPlayerPage() {
         </div>
 
         {/* Music Player Card */}
-        <div className="bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+        <div className="bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-5 md:p-6 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl">
           
           {/* Album Art */}
-          <div className="relative aspect-square mb-8 rounded-2xl overflow-hidden shadow-lg group">
+          <div className="relative aspect-square mb-6 md:mb-8 rounded-2xl overflow-hidden shadow-lg group">
              {/* Rotating disk effect */}
             <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-tr from-rose-400 to-orange-300 transition-transform duration-[10000ms] ease-linear ${isPlaying ? 'rotate-180' : ''}`} style={{ transitionDuration: isPlaying ? '10s' : '0.5s', animation: isPlaying ? 'spin 10s linear infinite' : 'none' }}>
                 <div className="w-1/2 h-1/2 bg-white/20 rounded-full blur-xl" />
             </div>
              {/* Center Image/Icon */}
             <div className="absolute inset-0 flex items-center justify-center">
-                 <HeartIcon className="w-24 h-24 text-white drop-shadow-md" filled={true} />
+                 <HeartIcon className="w-16 h-16 md:w-24 md:h-24 text-white drop-shadow-md" filled={true} />
             </div>
           </div>
 
           {/* Song Info */}
-          <div className="flex justify-between items-end mb-6">
+          <div className="flex justify-between items-end mb-5 md:mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-white dark:text-rose-50 mb-1">Endless Love</h2>
-              <p className="text-rose-100 dark:text-rose-200/70 text-sm font-medium">Romantic Ballads Vol. 1</p>
+              <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">Endless Love</h2>
+              <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">Romantic Ballads Vol. 1</p>
             </div>
             <button 
                 onClick={() => setIsLiked(!isLiked)} 
                 className={`p-2 rounded-full transition-all ${isLiked ? 'text-rose-500 scale-110' : 'text-white/70 hover:text-white'}`}
             >
-              <HeartIcon className="w-8 h-8" filled={isLiked} />
+              <HeartIcon className="w-6 h-6 md:w-8 md:h-8" filled={isLiked} />
             </button>
           </div>
 
           {/* Progress Bar */}
-          <div className="mb-8 group cursor-pointer">
+          <div className="mb-6 md:mb-8 group cursor-pointer">
             <div className="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full relative" 
@@ -167,32 +168,32 @@ export default function MusicPlayerPage() {
           {/* Controls */}
           <div className="flex items-center justify-between mb-2">
             <button className="text-white/70 hover:text-white transition-colors p-2">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 md:w-6 md:h-6">
                   <path fillRule="evenodd" d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a9.75 9.75 0 109.75 9.75.75.75 0 111.5 0 11.25 11.25 0 11-11.25-11.25h11.69l-3.22-3.22a.75.75 0 010-1.06z" clipRule="evenodd" />
                 </svg>
             </button>
             
             <button className="text-white/80 hover:text-white transition-colors hover:scale-110 active:scale-95">
-              <BackwardIcon className="w-10 h-10" />
+              <BackwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
             <button 
                 onClick={togglePlay}
-                className="w-16 h-16 bg-white text-rose-500 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+                className="w-14 h-14 md:w-16 md:h-16 bg-white text-rose-500 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
             >
               {isPlaying ? (
-                <PauseIcon className="w-8 h-8 ml-0.5" />
+                <PauseIcon className="w-6 h-6 md:w-8 md:h-8 ml-0.5" />
               ) : (
-                <PlayIcon className="w-8 h-8 ml-1" />
+                <PlayIcon className="w-6 h-6 md:w-8 md:h-8 ml-1" />
               )}
             </button>
 
             <button className="text-white/80 hover:text-white transition-colors hover:scale-110 active:scale-95">
-              <ForwardIcon className="w-10 h-10" />
+              <ForwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
              <button className="text-white/70 hover:text-white transition-colors p-2">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 md:w-6 md:h-6">
                 <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 8.625a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM15.375 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zM7.5 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z" clipRule="evenodd" />
               </svg>
             </button>
