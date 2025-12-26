@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, { useState, useEffect, useRef } from "react";
 
 // Icons
 function PlayIcon({ className }: { className?: string }) {
@@ -55,37 +54,68 @@ function ForwardIcon({ className }: { className?: string }) {
   );
 }
 
+const AUDIO_URL = "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3";
+
 export default function MusicPlayerPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [progress, setProgress] = useState(30); // Mock progress
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Toggle play state
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
-  // Mock progress bar interval
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));
-      }, 500);
+  const onTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
     }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+  };
+
+  const onLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      const newTime = Number(e.target.value);
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+      <audio
+        ref={audioRef}
+        src={AUDIO_URL}
+        onTimeUpdate={onTimeUpdate}
+        onLoadedMetadata={onLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+      />
       
       {/* Dynamic Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-rose-300 to-red-300 dark:from-rose-950 dark:via-red-900 dark:to-pink-950 opacity-80" />
-      {/* Responsive blobs */}
       <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-primary/30 rounded-full blur-[60px] md:blur-[100px] animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-secondary/40 rounded-full blur-[60px] md:blur-[100px] animate-pulse delay-75" />
 
-      {/* Floating Hearts Background (Simple CSS implementation) */}
+      {/* Floating Hearts */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(6)].map((_, i) => (
           <div
@@ -94,7 +124,7 @@ export default function MusicPlayerPage() {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 2 + 1}rem`, // Smaller on mobile
+              fontSize: `${Math.random() * 2 + 1}rem`,
               animationDuration: `${Math.random() * 5 + 3}s`,
             }}
           >
@@ -104,9 +134,8 @@ export default function MusicPlayerPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-sm px-4 md:px-0">
-        {/* Navigation */}
         <div className="flex justify-between items-center mb-6 md:mb-8 px-2 text-white/80">
-          <div className="w-6" /> {/* Placeholder to maintain centering if needed, or just let it justify */}
+          <div className="w-6" />
           <span className="text-xs md:text-sm font-medium tracking-widest uppercase">Now Playing</span>
           <button className="hover:text-white transition-colors">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -115,26 +144,20 @@ export default function MusicPlayerPage() {
           </button>
         </div>
 
-        {/* Music Player Card */}
         <div className="bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-5 md:p-6 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl">
-          
-          {/* Album Art */}
-          <div className="relative aspect-square mb-6 md:mb-8 rounded-2xl overflow-hidden shadow-lg group">
-             {/* Rotating disk effect */}
-            <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-tr from-rose-400 to-orange-300 transition-transform duration-[10000ms] ease-linear ${isPlaying ? 'rotate-180' : ''}`} style={{ transitionDuration: isPlaying ? '10s' : '0.5s', animation: isPlaying ? 'spin 10s linear infinite' : 'none' }}>
+          <div className="relative aspect-square mb-6 md:mb-8 rounded-2xl overflow-hidden shadow-lg">
+            <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-tr from-rose-400 to-orange-300 ${isPlaying ? 'animate-spin-slow' : ''}`}>
                 <div className="w-1/2 h-1/2 bg-white/20 rounded-full blur-xl" />
             </div>
-             {/* Center Image/Icon */}
             <div className="absolute inset-0 flex items-center justify-center">
                  <HeartIcon className="w-16 h-16 md:w-24 md:h-24 text-white drop-shadow-md" filled={true} />
             </div>
           </div>
 
-          {/* Song Info */}
           <div className="flex justify-between items-end mb-5 md:mb-6">
             <div>
-              <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">Endless Love</h2>
-              <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">Romantic Ballads Vol. 1</p>
+              <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">My Life</h2>
+              <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">Romantic Journey</p>
             </div>
             <button 
                 onClick={() => setIsLiked(!isLiked)} 
@@ -144,47 +167,49 @@ export default function MusicPlayerPage() {
             </button>
           </div>
 
-          {/* Progress Bar */}
-          <div className="mb-6 md:mb-8 group cursor-pointer">
-            <div className="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full relative" 
-                style={{ width: `${progress}%` }}
-              >
-                  {/* Scrubber knob */}
-                 <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            </div>
+          <div className="mb-6 md:mb-8 group">
+            <input
+              type="range"
+              min="0"
+              max={duration || 0}
+              value={currentTime}
+              onChange={handleProgressChange}
+              className="w-full h-1.5 bg-white/20 rounded-full appearance-none cursor-pointer accent-white"
+            />
             <div className="flex justify-between text-xs text-white/60 font-medium mt-2">
-              <span>1:45</span>
-              <span>4:20</span>
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
             </div>
           </div>
 
-          {/* Controls */}
           <div className="flex items-center justify-between mb-2">
-            <button className="text-white/70 hover:text-white transition-colors p-2">
+            <button className="text-white/70 hover:text-white transition-colors p-2" onClick={() => { if(audioRef.current) audioRef.current.currentTime = 0 }}>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 md:w-6 md:h-6">
                   <path fillRule="evenodd" d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a9.75 9.75 0 109.75 9.75.75.75 0 111.5 0 11.25 11.25 0 11-11.25-11.25h11.69l-3.22-3.22a.75.75 0 010-1.06z" clipRule="evenodd" />
                 </svg>
             </button>
             
-            <button className="text-white/80 hover:text-white transition-colors hover:scale-110 active:scale-95">
+            <button className="text-white/80 hover:text-white transition-colors" onClick={() => { if(audioRef.current) audioRef.current.currentTime -= 10 }}>
               <BackwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
-            <button 
-                onClick={togglePlay}
-                className="w-14 h-14 md:w-16 md:h-16 bg-white text-rose-500 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
-            >
-              {isPlaying ? (
-                <PauseIcon className="w-6 h-6 md:w-8 md:h-8 ml-0.5" />
-              ) : (
-                <PlayIcon className="w-6 h-6 md:w-8 md:h-8 ml-1" />
+            <div className="relative flex items-center justify-center">
+              {!isPlaying && (
+                <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-40" />
               )}
-            </button>
+              <button 
+                  onClick={togglePlay}
+                  className="relative z-10 w-14 h-14 md:w-16 md:h-16 bg-white text-rose-500 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+              >
+                {isPlaying ? (
+                  <PauseIcon className="w-6 h-6 md:w-8 md:h-8 ml-0.5" />
+                ) : (
+                  <PlayIcon className="w-6 h-6 md:w-8 md:h-8 ml-1" />
+                )}
+              </button>
+            </div>
 
-            <button className="text-white/80 hover:text-white transition-colors hover:scale-110 active:scale-95">
+            <button className="text-white/80 hover:text-white transition-colors" onClick={() => { if(audioRef.current) audioRef.current.currentTime += 10 }}>
               <ForwardIcon className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
@@ -201,6 +226,9 @@ export default function MusicPlayerPage() {
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+          animation: spin 10s linear infinite;
         }
       `}</style>
     </div>
