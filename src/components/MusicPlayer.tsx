@@ -134,6 +134,20 @@ export default function MusicPlayer({
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const [particles, setParticles] = useState<{left: string, top: string, fontSize: string, animationDuration: string}[]>([]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setParticles(
+      [...Array(6)].map(() => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        fontSize: `${Math.random() * 2 + 1}rem`,
+        animationDuration: `${Math.random() * 5 + 3}s`,
+      }))
+    );
+  }, []);
+
   const theme = THEMES[colorTheme];
 
   const togglePlay = () => {
@@ -228,16 +242,11 @@ export default function MusicPlayer({
 
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {particles.map((style, i) => (
           <div
             key={i}
             className="absolute text-white/10 dark:text-white/5 animate-bounce"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 2 + 1}rem`,
-              animationDuration: `${Math.random() * 5 + 3}s`,
-            }}
+            style={style}
           >
             {colorTheme === "Romantic" ? "♥" : "●"}
           </div>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -25,12 +26,12 @@ export default function Home() {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/u/ab1" className="px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-full text-white transition-all duration-300">
+            <Link href="/u/ab1" className="px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-full text-white transition-all duration-300">
                 Greeting
-            </a>
-            <a href="/u/ab2" className="px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-full text-white transition-all duration-300">
+            </Link>
+            <Link href="/u/ab2" className="px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-full text-white transition-all duration-300">
                 Music
-            </a>
+            </Link>
         </div>
       </main>
 
