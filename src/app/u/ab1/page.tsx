@@ -30,12 +30,6 @@ export default function GreetingPage() {
         </p>
 
         <div className="space-y-4">
-          <Link 
-            href="/"
-            className="block w-full py-4 bg-primary text-primary-foreground rounded-full font-bold hover:opacity-90 transition-opacity"
-          >
-            Back to Home
-          </Link>
           <p className="text-xs text-foreground/50 italic">
             &quot;Love is the only force capable of transforming an enemy into a friend.&quot;
           </p>

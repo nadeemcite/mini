@@ -106,11 +106,7 @@ export default function MusicPlayerPage() {
       <div className="relative z-10 w-full max-w-sm px-4 md:px-0">
         {/* Navigation */}
         <div className="flex justify-between items-center mb-6 md:mb-8 px-2 text-white/80">
-          <Link href="/" className="hover:text-white transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-              <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clipRule="evenodd" />
-            </svg>
-          </Link>
+          <div className="w-6" /> {/* Placeholder to maintain centering if needed, or just let it justify */}
           <span className="text-xs md:text-sm font-medium tracking-widest uppercase">Now Playing</span>
           <button className="hover:text-white transition-colors">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
