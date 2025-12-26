@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Theme - Romantic/Love */
+  --background: #FFF1F2; /* Rose 50 */
+  --foreground: #881337; /* Rose 900 */
+  --primary: #E11D48; /* Rose 600 */
+  --primary-foreground: #FFFFFF;
+  --secondary: #FECDD3; /* Rose 200 */
+  --secondary-foreground: #881337; /* Rose 900 */
+  --accent: #FB7185; /* Rose 400 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Theme - Romantic Night */
+    --background: #4C0519; /* Rose 950 */
+    --foreground: #FFE4E6; /* Rose 100 */
+    --primary: #F43F5E; /* Rose 500 */
+    --primary-foreground: #FFFFFF;
+    --secondary: #881337; /* Rose 900 */
+    --secondary-foreground: #FFE4E6; /* Rose 100 */
+    --accent: #9F1239; /* Rose 800 */
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
