@@ -177,7 +177,10 @@ export default function MusicPlayer({
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetch(transcriptUrl, { signal })
+    // Use local proxy to avoid CORS issues
+    const proxyUrl = `/api/transcript?url=${encodeURIComponent(transcriptUrl)}`;
+
+    fetch(proxyUrl, { signal })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
