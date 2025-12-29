@@ -45,16 +45,16 @@ export const PAGES: Record<string, PageData> = {
     audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/I%20miss%20you.mp3",
     songName: "You miss me",
     description: "May be this makes you feel better",
-    colorTheme: "Ocean",
+    colorTheme: "Romantic",
     transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/transcriptv3.json"
   },
   "b5e64f01-4095-6d1d-8da6-a5630ceddbf3": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Neon Lights",
-    description: "Dance all night",
-    colorTheme: "Party",
-    password: "abcd1234"
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/lonely/Feeling%20lonely.mp3",
+    songName: "you're feeling lonely",
+    description: "Lets see if we can reduce that feeling",
+    colorTheme: "Ocean",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/lonely/final_transcript.json"
   },
   "4ca8c0d9-2e2f-6ae0-bb89-cd840b7ea0a7": {
     type: "music",
