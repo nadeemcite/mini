@@ -13,43 +13,44 @@ export type PageData =
     audioUrl: string;
     songName: string;
     description: string;
-        colorTheme: "Romantic" | "Ocean" | "Party" | "Sad" | "Happy";
-        password?: string;
-        transcriptUrl?: string;
-      };
-    
-    export const PAGES: Record<string, PageData> = {
-      "ab1": {
-        type: "greeting",
-        title: "Hello there!",
-        content: (
-          <>
-            Welcome to your special corner of <span className="text-primary font-semibold">LoveTheme</span>. 
-            We&apos;re so glad you&apos;re here. This is a space built with passion and care, 
-            just for you.
-          </>
-        ),
-        quote: "\"Love is the only force capable of transforming an enemy into a friend.\"",
-        password: "abcd1234"
-      },
-      "ab2": {
-        type: "music",
-        audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-        songName: "My Life",
-        description: "Romantic Journey",
-        colorTheme: "Ocean",
-        password: "abcd1234"
-      },
-      "90e61069-aed4-402c-a275-1759b05ebb5f": {
-        type: "music",
-        audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/I%20miss%20you.mp3",
-        songName: "You miss me",
-        description: "May be this makes you feel better",
-        colorTheme: "Ocean",
-        password: "abcd1234",
-        transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/transcript.json"
-      },
-      "b5e64f01-4095-6d1d-8da6-a5630ceddbf3": {    type: "music",
+    colorTheme: "Romantic" | "Ocean" | "Party" | "Sad" | "Happy";
+    password?: string;
+    transcriptUrl?: string;
+  };
+
+export const PAGES: Record<string, PageData> = {
+  "ab1": {
+    type: "greeting",
+    title: "Hello there!",
+    content: (
+      <>
+        Welcome to your special corner of <span className="text-primary font-semibold">LoveTheme</span>.
+        We&apos;re so glad you&apos;re here. This is a space built with passion and care,
+        just for you.
+      </>
+    ),
+    quote: "\"Love is the only force capable of transforming an enemy into a friend.\"",
+    password: "abcd1234"
+  },
+  "ab2": {
+    type: "music",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
+    songName: "My Life",
+    description: "Romantic Journey",
+    colorTheme: "Ocean",
+    password: "abcd1234"
+  },
+  "90e61069-aed4-402c-a275-1759b05ebb5f": {
+    type: "music",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/I%20miss%20you.mp3",
+    songName: "You miss me",
+    description: "May be this makes you feel better",
+    colorTheme: "Ocean",
+    password: "abcd1234",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/final_transcript.json"
+  },
+  "b5e64f01-4095-6d1d-8da6-a5630ceddbf3": {
+    type: "music",
     audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
     songName: "Neon Lights",
     description: "Dance all night",
