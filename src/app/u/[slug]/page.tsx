@@ -67,10 +67,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   if (pageData.type === "music") {
     return (
       <MusicPlayer
+        key={slug}
         audioUrl={pageData.audioUrl}
         songName={pageData.songName}
         description={pageData.description}
         colorTheme={pageData.colorTheme}
+        transcriptUrl={pageData.transcriptUrl}
       />
     );
   }

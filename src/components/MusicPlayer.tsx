@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 
 // --- Icons ---
 function PlayIcon({ className }: { className?: string }) {
@@ -72,7 +72,20 @@ function SoundWave({ className }: { className?: string }) {
   );
 }
 
-// --- Themes ---
+// --- Types ---
+interface TranscriptWord {
+  text: string;
+  start: number;
+  end: number;
+}
+
+interface TranscriptSentence {
+  sentence_text: string;
+  start: number;
+  end: number;
+  words: TranscriptWord[];
+}
+
 type ThemeType = "Romantic" | "Ocean" | "Party" | "Sad" | "Happy";
 
 const THEMES: Record<ThemeType, {
@@ -80,36 +93,42 @@ const THEMES: Record<ThemeType, {
   blob1: string;
   blob2: string;
   playBtnText: string;
+  highlight: string;
 }> = {
   Romantic: {
     background: "bg-gradient-to-br from-pink-300 via-rose-300 to-red-300 dark:from-rose-950 dark:via-red-900 dark:to-pink-950",
     blob1: "bg-primary/30",
     blob2: "bg-secondary/40",
     playBtnText: "text-rose-500",
+    highlight: "text-rose-600 dark:text-rose-400 font-bold scale-110",
   },
   Ocean: {
     background: "bg-gradient-to-br from-cyan-300 via-blue-300 to-indigo-300 dark:from-blue-950 dark:via-indigo-900 dark:to-cyan-950",
     blob1: "bg-blue-500/30",
     blob2: "bg-cyan-500/40",
     playBtnText: "text-blue-500",
+    highlight: "text-blue-600 dark:text-blue-400 font-bold scale-110",
   },
   Party: {
     background: "bg-gradient-to-br from-purple-400 via-pink-400 to-yellow-400 dark:from-purple-900 dark:via-pink-900 dark:to-yellow-900",
     blob1: "bg-purple-500/30",
     blob2: "bg-yellow-500/40",
     playBtnText: "text-purple-600",
+    highlight: "text-purple-600 dark:text-purple-400 font-bold scale-110",
   },
   Sad: {
     background: "bg-gradient-to-br from-gray-300 via-slate-400 to-gray-500 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800",
     blob1: "bg-gray-500/30",
     blob2: "bg-slate-500/40",
     playBtnText: "text-slate-600",
+    highlight: "text-slate-700 dark:text-slate-300 font-bold scale-110",
   },
   Happy: {
     background: "bg-gradient-to-br from-yellow-200 via-orange-200 to-green-200 dark:from-yellow-900 dark:via-orange-900 dark:to-green-900",
     blob1: "bg-yellow-500/30",
     blob2: "bg-green-500/40",
     playBtnText: "text-orange-500",
+    highlight: "text-orange-600 dark:text-orange-400 font-bold scale-110",
   },
 };
 
@@ -120,6 +139,7 @@ interface MusicPlayerProps {
   songName: string;
   description: string;
   colorTheme?: ThemeType;
+  transcriptUrl?: string;
 }
 
 export default function MusicPlayer({
@@ -128,6 +148,7 @@ export default function MusicPlayer({
   songName,
   description,
   colorTheme = "Romantic",
+  transcriptUrl
 }: MusicPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -135,7 +156,8 @@ export default function MusicPlayer({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [particles, setParticles] = useState<{left: string, top: string, fontSize: string, animationDuration: string}[]>([]);
-
+  const [transcript, setTranscript] = useState<TranscriptSentence[]>([]);
+  
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setParticles(
@@ -148,7 +170,29 @@ export default function MusicPlayer({
     );
   }, []);
 
+  // Fetch transcript
+  useEffect(() => {
+    if (transcriptUrl) {
+      fetch(transcriptUrl)
+        .then((res) => res.json())
+        .then((data) => {
+           if (Array.isArray(data)) {
+             setTranscript(data);
+           }
+        })
+        .catch((err) => console.error("Failed to load transcript:", err));
+    }
+  }, [transcriptUrl]);
+
   const theme = THEMES[colorTheme];
+
+  // Derived state for active lyrics
+  const activeSentence = useMemo(() => {
+    if (!transcript.length) return null;
+    return transcript.find(
+      (s) => currentTime >= s.start && currentTime <= s.end
+    ) || null;
+  }, [currentTime, transcript]);
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -253,7 +297,7 @@ export default function MusicPlayer({
         ))}
       </div>
 
-      <div className="relative z-10 w-full max-w-sm px-4 md:px-0">
+      <div className="relative z-10 w-full max-w-md px-4 md:px-0">
         <div className="flex justify-between items-center mb-6 md:mb-8 px-2 text-white/80">
           <div className="w-6" />
           <span className="text-xs md:text-sm font-medium tracking-widest uppercase">{topText}</span>
@@ -291,7 +335,7 @@ export default function MusicPlayer({
               type="range"
               min="0"
               max={duration || 100}
-              step="0.1"
+              step="0.01"
               value={currentTime}
               onChange={handleProgressChange}
               className="w-full h-2 bg-white/20 rounded-full appearance-none cursor-pointer accent-white relative z-20 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full"
@@ -336,6 +380,36 @@ export default function MusicPlayer({
               <ForwardIcon className="w-10 h-10 md:w-12 md:h-12" />
             </button>
           </div>
+          
+           {/* Lyrics / Subtitles Section */}
+           {transcript.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-white/10 min-h-[4rem] flex flex-col items-center justify-center text-center">
+              {activeSentence ? (
+                <p className="text-white/90 text-lg md:text-xl leading-relaxed transition-all duration-300">
+                  {activeSentence.words.map((word, index) => {
+                    const isWordActive = currentTime >= word.start && currentTime <= word.end;
+                    return (
+                      <span
+                        key={index}
+                        className={`inline-block mx-[2px] transition-all duration-150 ${
+                          isWordActive 
+                            ? `${theme.highlight} scale-110 drop-shadow-md` 
+                            : "opacity-80"
+                        }`}
+                      >
+                        {word.text}
+                      </span>
+                    );
+                  })}
+                </p>
+              ) : (
+                <p className="text-white/40 text-sm italic animate-pulse">
+                  ...
+                </p>
+              )}
+            </div>
+          )}
+
         </div>
       </div>
       
