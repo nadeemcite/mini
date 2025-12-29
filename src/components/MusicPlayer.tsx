@@ -75,15 +75,20 @@ function SoundWave({ className }: { className?: string }) {
 // --- Types ---
 interface TranscriptWord {
   text: string;
-  start: number;
-  end: number;
+  start_time: number;
+  end_time: number;
 }
 
-interface TranscriptSentence {
-  sentence_text: string;
-  start: number;
-  end: number;
+interface TranscriptSegment {
+  text: string;
+  start_time: number;
+  end_time: number;
   words: TranscriptWord[];
+}
+
+interface TranscriptData {
+  language_code: string;
+  segments: TranscriptSegment[];
 }
 
 type ThemeType = "Romantic" | "Ocean" | "Party" | "Sad" | "Happy";
@@ -156,7 +161,7 @@ export default function MusicPlayer({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [particles, setParticles] = useState<{left: string, top: string, fontSize: string, animationDuration: string}[]>([]);
-  const [transcript, setTranscript] = useState<TranscriptSentence[]>([]);
+  const [transcript, setTranscript] = useState<TranscriptSegment[]>([]);
   
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -187,9 +192,9 @@ export default function MusicPlayer({
         }
         return res.json();
       })
-      .then((data) => {
-        if (!signal.aborted && Array.isArray(data)) {
-          setTranscript(data);
+      .then((data: TranscriptData) => {
+        if (!signal.aborted && data.segments && Array.isArray(data.segments)) {
+          setTranscript(data.segments);
         }
       })
       .catch((err) => {
@@ -209,7 +214,7 @@ export default function MusicPlayer({
   const activeSentence = useMemo(() => {
     if (!transcript.length) return null;
     return transcript.find(
-      (s) => currentTime >= s.start && currentTime <= s.end
+      (s) => currentTime >= s.start_time && currentTime <= s.end_time
     ) || null;
   }, [currentTime, transcript]);
 
@@ -350,7 +355,7 @@ export default function MusicPlayer({
               {activeSentence ? (
                 <p className="text-white/95 text-lg md:text-xl font-medium leading-tight transition-all duration-300">
                   {activeSentence.words.map((word, index) => {
-                    const isWordActive = currentTime >= word.start && currentTime <= word.end;
+                    const isWordActive = currentTime >= word.start_time && currentTime <= word.end_time;
                     return (
                       <span
                         key={index}
