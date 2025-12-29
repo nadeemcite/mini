@@ -172,16 +172,32 @@ export default function MusicPlayer({
 
   // Fetch transcript
   useEffect(() => {
-    if (transcriptUrl) {
-      fetch(transcriptUrl)
-        .then((res) => res.json())
-        .then((data) => {
-           if (Array.isArray(data)) {
-             setTranscript(data);
-           }
-        })
-        .catch((err) => console.error("Failed to load transcript:", err));
-    }
+    if (!transcriptUrl) return;
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(transcriptUrl, { signal })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!signal.aborted && Array.isArray(data)) {
+          setTranscript(data);
+        }
+      })
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.error("Failed to load transcript:", err);
+        }
+      });
+
+    return () => {
+      controller.abort();
+    };
   }, [transcriptUrl]);
 
   const theme = THEMES[colorTheme];
