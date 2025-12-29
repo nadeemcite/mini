@@ -58,11 +58,11 @@ export const PAGES: Record<string, PageData> = {
   },
   "4ca8c0d9-2e2f-6ae0-bb89-cd840b7ea0a7": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Sweet Nothing",
-    description: "Just for you",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/first_argument/First%20Argument.mp3",
+    songName: "we've had our first argument",
+    description: "My apologies, please accept...",
     colorTheme: "Romantic",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/first_argument/final_transcript.json"
   },
   "101ab7ba-a47e-6c67-b82e-37d0111a51be": {
     type: "music",
