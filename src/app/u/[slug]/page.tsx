@@ -1,6 +1,7 @@
 import MusicPlayer from "@/components/MusicPlayer";
 import { notFound } from "next/navigation";
 import React from "react";
+import { trackPageVisit } from "@/lib/tracker";
 
 function HeartIcon({ className }: { className?: string }) {
   return (
@@ -194,6 +195,9 @@ const PAGES: Record<string, PageData> = {
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
+  await trackPageVisit(slug);
+
   const pageData = PAGES[slug];
 
   if (!pageData) {
