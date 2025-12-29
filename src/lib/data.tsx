@@ -61,8 +61,8 @@ export const PAGES: Record<string, PageData> = {
     audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/first_argument/First%20Argument.mp3",
     songName: "we've had our first argument",
     description: "My apologies, please accept...",
-    colorTheme: "Romantic",
-    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/first_argument/final_transcript.json"
+    colorTheme: "Sad",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/first_argument/final_transcript_v2.json"
   },
   "101ab7ba-a47e-6c67-b82e-37d0111a51be": {
     type: "music",
