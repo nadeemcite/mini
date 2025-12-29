@@ -100,35 +100,35 @@ const THEMES: Record<ThemeType, {
     blob1: "bg-primary/30",
     blob2: "bg-secondary/40",
     playBtnText: "text-rose-500",
-    highlight: "text-rose-600 dark:text-rose-400 font-bold scale-110",
+    highlight: "text-rose-600 dark:text-rose-300 drop-shadow-[0_0_10px_rgba(244,63,94,0.6)]",
   },
   Ocean: {
     background: "bg-gradient-to-br from-cyan-300 via-blue-300 to-indigo-300 dark:from-blue-950 dark:via-indigo-900 dark:to-cyan-950",
     blob1: "bg-blue-500/30",
     blob2: "bg-cyan-500/40",
     playBtnText: "text-blue-500",
-    highlight: "text-blue-600 dark:text-blue-400 font-bold scale-110",
+    highlight: "text-blue-600 dark:text-blue-300 drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]",
   },
   Party: {
     background: "bg-gradient-to-br from-purple-400 via-pink-400 to-yellow-400 dark:from-purple-900 dark:via-pink-900 dark:to-yellow-900",
     blob1: "bg-purple-500/30",
     blob2: "bg-yellow-500/40",
     playBtnText: "text-purple-600",
-    highlight: "text-purple-600 dark:text-purple-400 font-bold scale-110",
+    highlight: "text-purple-600 dark:text-purple-300 drop-shadow-[0_0_10px_rgba(147,51,234,0.6)]",
   },
   Sad: {
     background: "bg-gradient-to-br from-gray-300 via-slate-400 to-gray-500 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800",
     blob1: "bg-gray-500/30",
     blob2: "bg-slate-500/40",
     playBtnText: "text-slate-600",
-    highlight: "text-slate-700 dark:text-slate-300 font-bold scale-110",
+    highlight: "text-slate-700 dark:text-slate-200 drop-shadow-[0_0_10px_rgba(100,116,139,0.6)]",
   },
   Happy: {
     background: "bg-gradient-to-br from-yellow-200 via-orange-200 to-green-200 dark:from-yellow-900 dark:via-orange-900 dark:to-green-900",
     blob1: "bg-yellow-500/30",
     blob2: "bg-green-500/40",
     playBtnText: "text-orange-500",
-    highlight: "text-orange-600 dark:text-orange-400 font-bold scale-110",
+    highlight: "text-orange-600 dark:text-orange-300 drop-shadow-[0_0_10px_rgba(249,115,22,0.6)]",
   },
 };
 
@@ -344,6 +344,35 @@ export default function MusicPlayer({
             )}
           </div>
 
+          {/* Lyrics / Subtitles Section */}
+          {transcript.length > 0 && (
+            <div className="mb-6 min-h-[3rem] flex flex-col items-center justify-center text-center px-2">
+              {activeSentence ? (
+                <p className="text-white/95 text-lg md:text-xl font-medium leading-tight transition-all duration-300">
+                  {activeSentence.words.map((word, index) => {
+                    const isWordActive = currentTime >= word.start && currentTime <= word.end;
+                    return (
+                      <span
+                        key={index}
+                        className={`inline-block mx-[3px] transition-all duration-200 ${
+                          isWordActive 
+                            ? `${theme.highlight}` 
+                            : "opacity-50 text-white"
+                        }`}
+                      >
+                        {word.text}
+                      </span>
+                    );
+                  })}
+                </p>
+              ) : (
+                <p className="text-white/30 text-sm italic animate-pulse">
+                  ...
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="flex flex-col items-center text-center mb-8">
             <h2 className="text-xl md:text-2xl font-bold text-white dark:text-rose-50 mb-1">{songName}</h2>
             <p className="text-rose-100 dark:text-rose-200/70 text-xs md:text-sm font-medium">{description}</p>
@@ -400,35 +429,6 @@ export default function MusicPlayer({
             </button>
           </div>
           
-           {/* Lyrics / Subtitles Section */}
-           {transcript.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-white/10 min-h-[4rem] flex flex-col items-center justify-center text-center">
-              {activeSentence ? (
-                <p className="text-white/90 text-lg md:text-xl leading-relaxed transition-all duration-300">
-                  {activeSentence.words.map((word, index) => {
-                    const isWordActive = currentTime >= word.start && currentTime <= word.end;
-                    return (
-                      <span
-                        key={index}
-                        className={`inline-block mx-[2px] transition-all duration-150 ${
-                          isWordActive 
-                            ? `${theme.highlight} scale-110 drop-shadow-md` 
-                            : "opacity-80"
-                        }`}
-                      >
-                        {word.text}
-                      </span>
-                    );
-                  })}
-                </p>
-              ) : (
-                <p className="text-white/40 text-sm italic animate-pulse">
-                  ...
-                </p>
-              )}
-            </div>
-          )}
-
         </div>
       </div>
       
