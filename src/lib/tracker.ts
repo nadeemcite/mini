@@ -5,36 +5,35 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/145516235903861146
 export async function trackPageVisit(slug: string) {
   try {
     const headersList = await headers();
-    const forwardedFor = headersList.get("x-forwarded-for");
-    const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "Unknown IP";
     const userAgent = headersList.get("user-agent") || "Unknown UA";
     const referer = headersList.get("referer") || "Direct";
+    const forwardedFor = headersList.get("x-forwarded-for");
+    const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "Unknown IP";
     
-    // Attempt GeoIP lookup if IP is valid and not local
-    let geoInfo = "Not available";
-    
-    // Check if IP is likely public (simple check)
+    // Disable tracking for localhost / development
+    const isDevelopment = process.env.NODE_ENV === 'development';
     const isLocal = ip === "Unknown IP" || ip === "::1" || ip === "127.0.0.1" || ip.startsWith("192.168.") || ip.startsWith("10.");
 
-    if (!isLocal) {
-      try {
-        // Using http explicitly as the free endpoint is http.
-        // If the runtime forces https, this might fail, but it's a best-effort tracker.
-        const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,countryCode,city,regionName,isp,lat,lon`, { 
-            signal: AbortSignal.timeout(3000) 
-        });
-        
-        if (geoResponse.ok) {
-           const data = await geoResponse.json();
-           if (data.status === 'success') {
-             geoInfo = `${data.city}, ${data.regionName}, ${data.country}`;
-           }
-        }
-      } catch {
-        // Silent fail for GeoIP
+    if (isDevelopment || isLocal) {
+        console.log(`[Tracker] Local visit detected for ${slug} (${ip}). Skipping Discord notification.`);
+        return;
+    }
+    
+    let geoInfo = "Not available";
+    
+    try {
+      const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,countryCode,city,regionName,isp,lat,lon`, { 
+          signal: AbortSignal.timeout(3000) 
+      });
+      
+      if (geoResponse.ok) {
+         const data = await geoResponse.json();
+         if (data.status === 'success') {
+           geoInfo = `${data.city}, ${data.regionName}, ${data.country}`;
+         }
       }
-    } else {
-        geoInfo = "Localhost / Private Network";
+    } catch {
+      // Silent fail for GeoIP
     }
 
     const payload = {
