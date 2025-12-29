@@ -47,7 +47,7 @@ export const PAGES: Record<string, PageData> = {
     description: "May be this makes you feel better",
     colorTheme: "Ocean",
     password: "abcd1234",
-    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/final_transcript.json"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/miss_you/transcriptv2.json"
   },
   "b5e64f01-4095-6d1d-8da6-a5630ceddbf3": {
     type: "music",
