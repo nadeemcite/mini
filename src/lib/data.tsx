@@ -66,19 +66,19 @@ export const PAGES: Record<string, PageData> = {
   },
   "101ab7ba-a47e-6c67-b82e-37d0111a51be": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Rainy Day",
-    description: "Melancholy vibes",
-    colorTheme: "Sad",
-    password: "abcd1234"
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/doubting/doubting.mp3",
+    songName: "You are doubting yourself",
+    description: "Let it flow",
+    colorTheme: "Ocean",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/doubting/final_transcript.json"
   },
   "c1d320eb-0c55-6b1b-874f-31e1a077038d": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Sunshine",
-    description: "Good morning",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/hug/hug.mp3",
+    songName: "You need a hug",
+    description: "Here it is 🫂",
     colorTheme: "Happy",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/hug/hug_ind.json"
   },
   "4ba6c253-5b2a-65de-9b38-62f0fcc8f885": {
     type: "music",
