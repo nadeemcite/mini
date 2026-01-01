@@ -1,4 +1,5 @@
 import React from "react";
+import { DuasManual } from "../components/DuasManual";
 
 export type PageData =
   | {
@@ -199,5 +200,11 @@ export const PAGES: Record<string, PageData> = {
     description: "Under the sea",
     colorTheme: "Ocean",
     password: "abcd1234"
+  },
+  "3ebf4342-09da-4c1a-bbb5-2482d65fcbfa": {
+    type: "greeting",
+    title: "Dua's for all time",
+    content: <DuasManual />,
+    quote: "\"These are the duas for you Putry hope you can keep it on your table or keep it somewhere safe...\""
   }
 };
