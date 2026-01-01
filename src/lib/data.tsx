@@ -82,9 +82,9 @@ export const PAGES: Record<string, PageData> = {
   },
   "4ba6c253-5b2a-65de-9b38-62f0fcc8f885": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Deep Blue",
-    description: "Calm waves",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/bad_day/long_bad_day.mp3",
+    songName: "you've had a long/bad day",
+    description: "Lets cheer you up",
     colorTheme: "Ocean",
     password: "abcd1234"
   },
