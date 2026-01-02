@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/dua-jar',
+        destination: '/u/3ebf4342-09da-4c1a-bbb5-2482d65fcbfa',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
