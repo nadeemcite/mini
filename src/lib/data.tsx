@@ -87,7 +87,7 @@ export const PAGES: Record<string, PageData> = {
     songName: "you've had a long/bad day",
     description: "Lets cheer you up",
     colorTheme: "Ocean",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/bad_day/final_transcript.json"
   },
   "ec81b10c-95f3-6ec8-a4c6-48e4becb14ea": {
     type: "music",
@@ -163,35 +163,35 @@ export const PAGES: Record<string, PageData> = {
   },
   "db518420-c9ac-6577-a5d0-7b8e18486e22": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Lonely",
-    description: "Solo night",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/apology/apology.mp3",
+    songName: "you're mad at me",
+    description: "I am sorry Sayang",
     colorTheme: "Sad",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/apology/final_transcript.json"
   },
   "c9292532-23b5-6ee6-a388-ed004ea6f1f2": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Adore",
-    description: "Only you",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/love/love.mp3",
+    songName: "You want to know how much I love you",
+    description: "Hard to write in words",
     colorTheme: "Romantic",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/love/love_eng.json"
   },
   "024fe120-dc77-6bbe-bb14-517198761f6b": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Fiesta",
-    description: "Let's go",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/work_stress/work_stress.mp3",
+    songName: "you're feeling stressed about work",
+    description: "Give your eyes some rest Putry",
     colorTheme: "Party",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/work_stress/final_transcript.json"
   },
   "79c76ca6-23ea-65d1-8b54-fb1ab9de1622": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Laugh",
-    description: "Funny day",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/beauty/beauty.mp3",
+    songName: "you're doubting your beauty",
+    description: "Look from my eyes",
     colorTheme: "Happy",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/beauty/final_transcript.json"
   },
   "fa1fc415-a601-6f3f-9ce6-d7427daff434": {
     type: "music",
