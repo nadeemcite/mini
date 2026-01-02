@@ -91,75 +91,75 @@ export const PAGES: Record<string, PageData> = {
   },
   "ec81b10c-95f3-6ec8-a4c6-48e4becb14ea": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Forever",
-    description: "Eternity",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/laugh/laugh.mp3",
+    songName: "you need a laugh",
+    description: "Achha Baby Achha!!!",
     colorTheme: "Romantic",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/laugh/final_transcript.json"
   },
   "896bc08b-c5ae-6af0-8db3-e70ab60a6123": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Club Mix",
-    description: "Bass drop",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/boring/boring.mp3",
+    songName: "you're bored",
+    description: "Lets make you smile...",
     colorTheme: "Party",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/boring/boring_ind.json"
   },
   "e9aa4178-b045-6f8f-9074-0c6bf67ac752": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Smile",
-    description: "Be happy",
-    colorTheme: "Happy",
-    password: "abcd1234"
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/sleep/sleep.mp3",
+    songName: "you can't sleep",
+    description: "me too babes",
+    colorTheme: "Sad",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/sleep/sleep_ind.json"
   },
   "fd22b2f7-089c-63f1-a3a2-27f82c139d39": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Tears",
-    description: "Broken heart",
-    colorTheme: "Sad",
-    password: "abcd1234"
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/birthday/birthday.mp3",
+    songName: "It's your birthday",
+    description: "Happy Birthday Sayang...",
+    colorTheme: "Happy",
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/birthday/birthday_eng.json"
   },
   "318f3edb-8c49-632e-b8fc-c2c99562a419": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Breeze",
-    description: "Sea shore",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/anniversary/Chat-versary.mp3",
+    songName: "it's our anniversary",
+    description: "Basically Chat-versary",
     colorTheme: "Ocean",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/anniversary/Chat-versary_eng.json"
   },
   "88ff1b65-269a-6334-bb21-7fc438008684": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Valentine",
-    description: "Be mine",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/secret/Secret.mp3",
+    songName: "you want to hear a secret",
+    description: "Here it is...",
     colorTheme: "Romantic",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/secret/Secret_eng.json"
   },
   "f1c2312f-e3b6-6fa3-9952-9b1035bd4d68": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Celebration",
-    description: "Cheers",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/achievement/achievement.mp3",
+    songName: "you're proud of an achievement",
+    description: "Me too, proud of you dear",
     colorTheme: "Party",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/achievement/achievement_ind.json"
   },
   "0080a0fd-75b7-6cf4-b4ff-dea8537412af": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Joy",
-    description: "Pure bliss",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/adventure/adventure.mp3",
+    songName: "you want to go on an adventure",
+    description: "Sure... Lets plan",
     colorTheme: "Happy",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/adventure/adventure_ind.json"
   },
   "f01c040d-b558-6a60-b085-82ab182b6698": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Tides",
-    description: "Moving water",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/future/future.mp3",
+    songName: "you're thinking about our future",
+    description: "Take it easy love...",
     colorTheme: "Ocean",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/future/future_ind.json"
   },
   "db518420-c9ac-6577-a5d0-7b8e18486e22": {
     type: "music",
@@ -195,11 +195,11 @@ export const PAGES: Record<string, PageData> = {
   },
   "fa1fc415-a601-6f3f-9ce6-d7427daff434": {
     type: "music",
-    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/my_life.mp3",
-    songName: "Coral",
-    description: "Under the sea",
+    audioUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/travel/travel.mp3",
+    songName: "you're about to visit somewhere new without me",
+    description: "Fly Safe Babes",
     colorTheme: "Ocean",
-    password: "abcd1234"
+    transcriptUrl: "https://storage.googleapis.com/nadeem-public-gcs/mini/putri/travel/final_transcript.json"
   },
   "3ebf4342-09da-4c1a-bbb5-2482d65fcbfa": {
     type: "greeting",
